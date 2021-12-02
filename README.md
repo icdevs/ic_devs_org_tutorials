@@ -40,6 +40,8 @@ ICDevs.org is completely independent from the DFINITY Foundation and the ICA. Ou
 
 [!ref target="blank" text="Read our Bylaws"](https://icdevs.org/bylaws.html)
 
+---
+
 ## ♾️ What is the Internet Computer
 
 [!ref target="blank" text="From : Dfinity docs"](https://smartcontracts.org/docs/developers-guide/concepts/what-is-ic)

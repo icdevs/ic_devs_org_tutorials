@@ -1,6 +1,6 @@
 input: .
 output: .retype
-url: # Add your website address here
+url: tutorials.icdevs.org
 branding:
   title: IC Devs
   label: Docs
