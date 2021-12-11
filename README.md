@@ -2,7 +2,7 @@
 label: Who we are
 ---
 
-![](/static/icdevs-logo.png)
+![](/static/ic-devs-logo.png)
 
 ICDevs.org (registered as The Internet Computer Developers Education and Discovery Corporation) is a 501(c)3 Texas Non-profit.
 
