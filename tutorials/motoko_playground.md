@@ -96,7 +96,52 @@ public func dec() : async () {
   };
 }
 ```
+## Import a module
+To import a module from Motoko base library, you can do it like that:
+```
+import Text "mo:base/Nat";
+```
+Now you have available all of the functions that are present in the Nat module that you can find on the official documentation page https://smartcontracts.org/docs/base-libraries/Nat.html. Notice, that there are also other modules available.
 
+Now, lets make a function is_zero, that will return true if the counter value is zero or false if it's not a zero. Use a function imported from Nat module.
+
+```
+import Nat "mo:base/Nat";
+
+actor Counter {
+
+  stable var counter = 0;
+
+  // Get the value of the counter.
+  public query func get() : async Nat {
+    return counter;
+  };
+
+  // Set the value of the counter.
+  public func set(n : Nat) : async () {
+    counter := n;
+  };
+
+  // Increment the value of the counter.
+  public func inc() : async () {
+    counter += 2;
+  };
+
+  // decrease the counter value by 1, can't go below zero
+  public func dec() : async () {
+      if (counter > 0){
+          counter -= 1;
+      };
+  };
+
+  // return true if counter is zero
+  public func is_zero() : async Bool {
+      Nat.equal(counter, 0)
+  }
+};
+
+```
+Viola, here is the whole working code in case you got lost. You can copy paste it to your playground.
 ## Save & share your code
 
 You know might want to save your code so you can open it later. You can either save the code and keep in in a local file or click on the Save & Share button in the top-right corner. This will generate you an unique link that you can come back to later.

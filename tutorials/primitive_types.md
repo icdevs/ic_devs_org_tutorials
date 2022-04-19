@@ -104,7 +104,7 @@ let d : Int8 = 250 // Not ok
 
 For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 size of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.
 
-Keep in mind, even if you have a value that would fit into a smaller size Nat/Int, you can only assign it if it has the same type. Something like this will not work in Motoko:
+Keep in mind, even if you have a value that would fit into a smaller size Nat/Int, you can only assign it if it has the same type. Something like this will **not** work in Motoko:
 ```
 let a : Int8 = 10; // Not Ok – Int8 and Int32 types not compatible
 
@@ -154,3 +154,12 @@ var a : Bool = true; // Ok
 var b : Bool = 1; // Not Ok
 ``` 
 ## Useful resources and links
+
+Motoko documentaion page talking about types:  
+https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types  
+
+Motoko basic concepts and terms:  
+https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values  
+
+Motoko base library:  
+https://smartcontracts.org/docs/base-libraries/stdlib-intro.html
