@@ -29,11 +29,11 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="/resources/css/retype.css?v=2.2.703669384369" rel="stylesheet" data-turbo-track="reload" />
+    <link href="/resources/css/retype.css?v=2.2.704998675325" rel="stylesheet" data-turbo-track="reload" />
 
-    <script type="text/javascript" src="/resources/js/config.js?v=2.2.703669384369" defer data-turbo-track="reload"></script>
+    <script type="text/javascript" src="/resources/js/config.js?v=2.2.704998675325" defer data-turbo-track="reload"></script>
     <script type="text/javascript" src="/resources/js/retype.js?v=2.2" defer data-turbo-track="reload"></script>
-    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.703669384369" defer></script>
+    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.704998675325" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -272,6 +272,55 @@
   };
 }</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="import-a-module">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#import-a-module">#</doc-anchor-trigger>
+        <span>Import a module</span>
+    </h2>
+</doc-anchor-target>
+<p>To import a module from Motoko base library, you can do it like that:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import Text &quot;mo:base/Nat&quot;;</code></pre>
+</doc-codeblock></div>
+<p>Now you have available all of the functions that are present in the Nat module that you can find on the official documentation page <a href="https://smartcontracts.org/docs/base-libraries/Nat.html">https://smartcontracts.org/docs/base-libraries/Nat.html</a>. Notice, that there are also other modules available.</p>
+<p>Now, lets make a function is_zero, that will return true if the counter value is zero or false if it&#x27;s not a zero. Use a function imported from Nat module.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import Nat &quot;mo:base/Nat&quot;;
+
+actor Counter {
+
+  stable var counter = 0;
+
+  // Get the value of the counter.
+  public query func get() : async Nat {
+    return counter;
+  };
+
+  // Set the value of the counter.
+  public func set(n : Nat) : async () {
+    counter := n;
+  };
+
+  // Increment the value of the counter.
+  public func inc() : async () {
+    counter += 2;
+  };
+
+  // decrease the counter value by 1, can't go below zero
+  public func dec() : async () {
+      if (counter &gt; 0){
+          counter -= 1;
+      };
+  };
+
+  // return true if counter is zero
+  public func is_zero() : async Bool {
+      Nat.equal(counter, 0)
+  }
+};
+</code></pre>
+</doc-codeblock></div>
+<p>Viola, here is the whole working code in case you got lost. You can copy paste it to your playground.</p>
 <doc-anchor-target id="save--share-your-code">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#save--share-your-code">#</doc-anchor-trigger>

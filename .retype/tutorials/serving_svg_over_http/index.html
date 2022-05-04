@@ -9,23 +9,23 @@
     <meta name="generator" content="Retype 2.2">
 
     <!-- Primary Meta Tags -->
-    <title>Primitive data types</title>
-    <meta name="title" content="Primitive data types">
-    <meta name="description" content="Types play a significant role in Motoko language. Compared to modern general purpose languages such as Python, Motoko is very strict about types." />
+    <title>Serving simple SVG over HTTP</title>
+    <meta name="title" content="Serving simple SVG over HTTP">
+    <meta name="description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/primitive_types/">
-    <meta property="og:title" content="Primitive data types">
-    <meta property="og:description" content="Types play a significant role in Motoko language. Compared to modern general purpose languages such as Python, Motoko is very strict about types.">
-    <meta property="og:image" content="https://tutorials.icdevs.org/static/types_overflow.png">
+    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/serving_svg_over_http/">
+    <meta property="og:title" content="Serving simple SVG over HTTP">
+    <meta property="og:description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister.">
+    <meta property="og:image" content="https://tutorials.icdevs.org/static/infinity.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/primitive_types/">
-    <meta property="twitter:title" content="Primitive data types">
-    <meta property="twitter:description" content="Types play a significant role in Motoko language. Compared to modern general purpose languages such as Python, Motoko is very strict about types.">
-    <meta property="twitter:image" content="https://tutorials.icdevs.org/static/types_overflow.png">
+    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/serving_svg_over_http/">
+    <meta property="twitter:title" content="Serving simple SVG over HTTP">
+    <meta property="twitter:description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister.">
+    <meta property="twitter:image" content="https://tutorials.icdevs.org/static/infinity.png">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
@@ -163,182 +163,250 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="primitive-data-types" class="break-words">
+<doc-anchor-target id="serving-simple-svg-over-http" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#primitive-data-types">#</doc-anchor-trigger>
-        <span>Primitive data types</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#serving-simple-svg-over-http">#</doc-anchor-trigger>
+        <span>Serving simple SVG over HTTP</span>
     </h1>
 </doc-anchor-target>
-<p>Types play a significant role in Motoko language. Compared to modern general purpose languages such as Python, Motoko is very strict about  types. This have a good purpose as it helps preventing Motoko programs to go wrong as mentioned in the <a href="https://smartcontracts.org/docs/language-guide/motoko-introduction.html#pitch-types">documentation page</a>.</p>
-<blockquote>
-<p>For example, each variable in a Motoko program carries an associated type, and this type is known statically, before the program executes. Each use of each variable is checked by the compiler to prevent runtime type errors, including null reference errors, invalid field access and the like.</p>
-</blockquote>
-<doc-anchor-target id="types-in-motoko">
+<p>In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister. <strong>Yes – canisters can serve web content over HTTP!</strong> You are probably familiar with that as it is one of the main advantages of the Internet Computer over the other blockchains. But there is also a <strong>http_request()</strong> function that you can use in Motoko to define how exactly is your canister going to behave when contacted over HTTP protocol.</p>
+<p>This could be useful when you want to serve custom SVG images or define custom api endpoint over the URL. Serving a dynamic NFT file is what we&#x27;re going to do now.</p>
+<p>We are going to use <a href="/tutorials/motoko_playground/">Motoko Playground</a> for deploying the code, this will give you a quick start without needing to setting up your local enviroment.</p>
+<doc-anchor-target id="http-requests">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#types-in-motoko">#</doc-anchor-trigger>
-        <span>Types in Motoko</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#http-requests">#</doc-anchor-trigger>
+        <span>HTTP Requests</span>
     </h2>
 </doc-anchor-target>
-<p>Generaly speaking, we can categorize types into two groups: primitive types non-primitive values. This text focuses on primitive types mainly so we will explain them in more detail in the next chapture. To give you the contrast, let&#x27;s quickly go through the primitive vs non-primitive values.</p>
-<p>Primitive types in Motoko programming language are integers, natural numbers floating numbers, characters, texts and booleans.</p>
-<p>Example of a primitive type, declaration of a variable that will have type of a natural number an is initialized with the value of 1:</p>
+<p>We are going to start with this skeleton <a href="https://github.com/motoko-bootcamp/bootcamp/blob/main/daily_challenges/day_6/GUIDE.MD#http-request">template</a> used for educational purposes during the Motoko Bootcamp event.</p>
+<p>The template contains of two files, first the module file http.mo that contains types needed for HTTP communication from the canister.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Nat = 1;</code></pre>
-</doc-codeblock></div>
-<p>Non-primitive values can be tuples, arrays, objects, variants, functions, async values or error values.</p>
-<p>Example of a non-primitive type, declaring an array that b that can only contain natural numbers and is initialized with values 1, 2, 3:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let b : [Nat] = [1, 2, 3] ;</code></pre>
-</doc-codeblock></div>
-<blockquote>
-<p>You can easily experiment with types and run this sample code in the <a href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/">Motoko playground</a> if you are not familiar with it you can follow <a href="/tutorials/motoko_playground/">Getting to know Motoko Playground</a> tutorial.</p>
-</blockquote>
-<doc-anchor-target id="primitive-types">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#primitive-types">#</doc-anchor-trigger>
-        <span>Primitive types</span>
-    </h2>
-</doc-anchor-target>
-<p>In this chapter, we will go through all of the primitive types and give you examples of how to declare variables and what can be assigned to them.</p>
-<doc-anchor-target id="1-unbounded-integers">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-unbounded-integers">#</doc-anchor-trigger>
-        <span>1. Unbounded Integers</span>
-    </h3>
-</doc-anchor-target>
-<p>Unbounded integers can be assigned with positive or negative numbers. There are some ways how to declare an integer variable:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Int = 1;
-let b : Int = -10;
-let c : Int = 1_000_000;
-let d : Int = 0xf4; // 245</code></pre>
-</doc-codeblock></div>
-<p>Let&#x27;s make a little exercise now. Write a funciton called add, that will take two integers as arguments and return a sum of these two numbers.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">public query func add(a : Int, b : Int) : async Int {
-    return a+b;
+<pre class="language-none"><code v-pre class="language-none">module {
+    public type HeaderField = (Text, Text);
+    public type Request = {
+        body    : Blob;
+        headers : [HeaderField];
+        method  : Text;
+        url     : Text;
+    };
+
+    public type Response = {
+        body               : Blob;
+        headers            : [HeaderField];
+        status_code        : Nat16;
+        streaming_strategy : ?StreamingStrategy;
+    };
+
+      public type StreamingStrategy = {
+        #Callback: {
+            callback : StreamingCallback;
+            token    : StreamingCallbackToken;
+        };
+    };
+
+    public type StreamingCallback = query (StreamingCallbackToken) -&gt; async (StreamingCallbackResponse);
+
+    public type StreamingCallbackToken =  {
+        content_encoding : Text;
+        index            : Nat;
+        key              : Text;
+    };
+
+    public type StreamingCallbackResponse = {
+        body  : Blob;
+        token : ?StreamingCallbackToken;
+    };
+
 };</code></pre>
 </doc-codeblock></div>
-<p>That was quite easy, right? Try to experiment with it in the Candid UI.</p>
-<doc-anchor-target id="2-unbounded-natural-numbers">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#2-unbounded-natural-numbers">#</doc-anchor-trigger>
-        <span>2. Unbounded Natural numbers</span>
-    </h3>
+<p>If the code seems too exotic to you, please check this <a href="https://www.youtube.com/watch?v=iYM2zFP3Zn0">video</a> that is explaining basics of HTTP protocol. The most key part for our case in this tutorial are the Request and Response types that play the main role in our simple HTTP communication.</p>
+<p>The second file is your main.mo file that loads the module http and contains a simple function http_request that puts it all together.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import HTTP &quot;http&quot;;
+import Text &quot;mo:base/Text&quot;;
+actor {
+  public query func http_request(request : HTTP.Request) : async HTTP.Response {
+    let response = {
+      body = Text.encodeUtf8(&quot;Hello world&quot;);
+      headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+      status_code = 200 : Nat16;
+      streaming_strategy = null
+      };
+      return(response)
+    };
+};</code></pre>
+</doc-codeblock></div>
+<p>Now, try to deploy the code in the Motoko Playground. Let&#x27;s ignore the Candid UI for now and focus on the Log message with the canister ID: Code installed at canister id wch4f-miaaa-aaaab-qadfa-cai. <strong>Your canister ID will be of course different</strong>. Copy your canister ID and create this URL following this pattern <strong>https://&lt;&lt;CANISTER ID&gt;&gt;.raw.ic0.app/:</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/</code></pre>
+</doc-codeblock></div>
+<p>If all goes fine and you open your URL in your browser you should see the Hello world message.</p>
+<p>Notice that there is a &quot;raw&quot; keyword in the URL. Raw in the URL means we are serving non certified assets. This certification means that IC guarantees that you are getting right data. Certification can be expensive as it can cost a lot of assets so it only makes sense when serving very important data. You would need to implement a hash function for certification which is beyond the scope of this tutorial.</p>
+<doc-anchor-target id="svg-image">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#svg-image">#</doc-anchor-trigger>
+        <span>SVG image</span>
+    </h2>
 </doc-anchor-target>
-<p>Unbounded natural numbers can be assigned with positive numbers only. <strong>Motoko program will trap if you try to assign a negative number.</strong></p>
+<p>Now, let&#x27;s put some SVG image into works. SVGs are basically text files that carry vector information about some visual. You can easily find any SVG file online and use it or you can use the same as we. Create a text variable called svg that will contain data about your curve.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Nat = 1;
-let b : Nat = 1_000_000;
-let c : Nat = 0xf4; //245</code></pre>
+<pre class="language-none"><code v-pre class="language-none">let svg : Text = &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+		    &quot;&lt;path fill='black' d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
+};</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="3-bounded-numbers">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#3-bounded-numbers">#</doc-anchor-trigger>
-        <span>3. Bounded numbers</span>
-    </h3>
-</doc-anchor-target>
-<p>Unbounded numbers variables can be assigned theoretically with numbers of any size. There are situations when you don&#x27;t need this. For example if you want to declare a variable that will represent an age of a person. This variable should never exceed a number greater than 200. You might consider to use a bounded variable to be more memory effective.</p>
-<p>In Motoko, these bounded numbers types are available:</p>
-<ul>
-<li>Nat8</li>
-<li>Nat16</li>
-<li>Nat32</li>
-<li>Nat64</li>
-<li>Int8</li>
-<li>Int16</li>
-<li>Int32</li>
-<li>Int64</li>
-</ul>
-<p>To explain the pattern, each type consist of Nat/Int and a number. This number represents quantity of bits that will be assigned in memory of the computer for this specific type. For example Nat8 variable can be only assigned with values ranging from 0 to 255. This comes from a formula 2^8 = 256 so the maximum number is 255 as we are starting from 0.</p>
-<p>This means that you can declare a variable:</p>
+<p>In order to display the SVG, we need to replace this line of code in our http_request function <del>body = Text.encodeUtf8(&quot;Hello world&quot;);</del> with the svg variable:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Nat8 = 255; // Ok</code></pre>
+<pre class="language-none"><code v-pre class="language-none">body = Text.encodeUtf8(svg);</code></pre>
 </doc-codeblock></div>
-<p>But if you try this your program will fail because we are overflowing the maximum value:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Nat8 = 1000; // Not ok</code></pre>
-</doc-codeblock></div>
-<p>If you try to run this program, it will trap. Motoko Playground is well prepared for this type of situations, it doesn&#x27;t let you execute the program and shows you an explanatory error message:</p>
+<p>You could also adjust the header format of the return type if you want to be precise, but it will work with text/html as well.</p>
+<p>Now if you deploy your code and try to refresh your canister page again in the browser, you should see the SVG image instead of Hello, World message. Beautifull infinity symbol.</p>
 <p><figure class="content-center">
-    <img src="../../static/types_overflow.png" alt="Overflowing the Nat8 value in Motoko Playground" />
-    <figcaption class="caption">Overflowing the Nat8 value in Motoko Playground</figcaption>
+    <img src="../../static/infinity.png" alt="SVG infinity symbol from the canister" />
+    <figcaption class="caption">SVG infinity symbol from the canister</figcaption>
 </figure>
 </p>
-<p>As integers can also go below zero, we have space for 256 numbers too but in the range from -128 to 127.</p>
+<p>Here we go! You just served a SVG file over HTTP on the Internet Computer.</p>
+<doc-anchor-target id="dynamic-svg">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#dynamic-svg">#</doc-anchor-trigger>
+        <span>Dynamic SVG</span>
+    </h2>
+</doc-anchor-target>
+<p>To demonstrate the power of serving SVG images over HTTP, we can now make a simple example of dynamically changing the SVG color.</p>
+<p>Notice that there is a color definition at the beginning of our curve (path) in the SVG format fill=&#x27;<strong>black</strong>&#x27;. We can make this to change dynamically based on the number in the URL requested to the canister.</p>
+<p>To start, let&#x27;s create an array that will contain some colors:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Int8 = -128; // Ok
-let b : Int8 = 127; // Ok
-let c : Int8 = -130 // Not ok
-let d : Int8 = 250 // Not ok</code></pre>
+<pre class="language-none"><code v-pre class="language-none">let colors : [Text] = [&quot;yellow&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;];</code></pre>
 </doc-codeblock></div>
-<p>For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 size of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.</p>
-<p>Keep in mind, even if you have a value that would fit into a smaller size Nat/Int, you can only assign it if it has the same type. Something like this will <strong>not</strong> work in Motoko:</p>
+<p>Now, let&#x27;s define a function make_svg that will take a color as a text argument and returns colored SVG if it finds it in our colors array. If it doesn&#x27;t find the color in our array, it will return the default black color.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Int8 = 10; // Not Ok – Int8 and Int32 types not compatible
-
-let b : Int32 = 789;
-
-public query func add() : async Int32 {
-    return a+b;
+<pre class="language-none"><code v-pre class="language-none">func color_svg(color : Text) : Text {
+    var result_color : Text = &quot;black&quot;;
+    for (c in colors.vals()) {
+        if (c == color){
+            result_color := c;
+        };
+    };
+    return &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+        &quot;&lt;path fill='&quot; # result_color # &quot;'d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
 };</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="4-floating-point-numbers">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#4-floating-point-numbers">#</doc-anchor-trigger>
-        <span>4. Floating point numbers</span>
-    </h3>
-</doc-anchor-target>
-<p>For decimal numbers Float type is available in Motoko. Here are some ways how to assign a value to declared float variable:</p>
+<p>We are first looping through our colors array to find out if color is in it. If it is found we assign it as a result_color, if it is not inside we will use &quot;black&quot; as default. Notice that we are contatenating the SVG string with the color name.</p>
+<p>Now let&#x27;s change the http_request() function, so it gets the /path from the request and call the color_svg function, that will return the SVG code with the right color.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Float = 0;
-let b : Float = -10.2;
-let c : Float = -0.3e+15;
-let d : Float = 3.141_592_653_589_793;</code></pre>
+<pre class="language-none"><code v-pre class="language-none">public query func http_request(request : HTTP.Request) : async HTTP.Response {
+    let color : Text = Text.replace(request.url, #text(&quot;/&quot;), &quot;&quot;);
+    var svg : Text =  color_svg(color);
+    let response = {
+        body = Text.encodeUtf8(svg);
+        headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+        status_code = 200 : Nat16;
+        streaming_strategy = null
+    };
+    return(response)
+    };</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="5-characters-and-text">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#5-characters-and-text">#</doc-anchor-trigger>
-        <span>5. Characters and text</span>
-    </h3>
-</doc-anchor-target>
-<p>For single characters, there is a type called Char and for strings of characters a Text type. <strong>Be careful, char type must be assigned with single quotes and string types with double qoutes.</strong> Lets try to declare your own variables:</p>
+<p>Now deploy your code and open the canister URL in another window of your browser again. Include the NFT color behind the URL so it looks like this (remember to use your own canister ID from the log console):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">let a : Char = 'A'; // Ok
-let b : Char = &quot;B&quot;; // Not ok
-let c : Text =  &quot;Hello, World!&quot; // Ok
-let d : Text = 'Hello, World!' // Not ok</code></pre>
+<pre class="language-none"><code v-pre class="language-none">https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/blue // use your own canister ID 
+https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/red
+https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/green</code></pre>
 </doc-codeblock></div>
-<p>Let&#x27;s create a funciton concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.</p>
+<p><figure class="content-center">
+    <img src="../../static/infinity_blue.png" alt="SVG rendered with specific color" />
+    <figcaption class="caption">SVG rendered with specific color</figcaption>
+</figure>
+</p>
+<p>Try to put something else than registered color name in the URL, you should see the default black symbol.</p>
+<p>Here is the full working code in the Motoko Playground in case you got lost somewhere.</p>
+<p><strong>Main.mo</strong></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">public query func concat(a : Text, b : Text) : async Text {
-    return a # &quot; &quot; # b;
+<pre class="language-none"><code v-pre class="language-none">import HTTP &quot;http&quot;;
+import Text &quot;mo:base/Text&quot;;
+actor {
+
+    let colors : [Text] = [&quot;yellow&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;];
+
+    func color_svg(color : Text) : Text {
+        var result_color : Text = &quot;black&quot;;
+        for (c in colors.vals()) {
+            if (c == color){
+                result_color := c;
+            };
+        };
+        return &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+            &quot;&lt;path fill='&quot; # result_color # &quot;'d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
+    };
+
+    public query func http_request(request : HTTP.Request) : async HTTP.Response {
+        let color : Text = Text.replace(request.url, #text(&quot;/&quot;), &quot;&quot;);
+        var svg : Text =  color_svg(color);
+        let response = {
+            body = Text.encodeUtf8(svg);
+            headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+            status_code = 200 : Nat16;
+            streaming_strategy = null
+        };
+        return(response)
+    };
 };</code></pre>
 </doc-codeblock></div>
-<p>Exactly, you can use the # operator to concatenate strings in Motoko!</p>
-<doc-anchor-target id="6-booleans">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#6-booleans">#</doc-anchor-trigger>
-        <span>6. Booleans</span>
-    </h3>
-</doc-anchor-target>
-<p>For booleans we have a Bool type in Motoko. It can only hold a value either true or false.</p>
+<p><strong>http.mo</strong></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">var a : Bool = true; // Ok
-var b : Bool = 1; // Not Ok</code></pre>
+<pre class="language-none"><code v-pre class="language-none">module {
+    public type HeaderField = (Text, Text);
+    
+    public type Request = {
+        body    : Blob;
+        headers : [HeaderField];
+        method  : Text;
+        url     : Text;
+    };
+
+    public type Response = {
+        body               : Blob;
+        headers            : [HeaderField];
+        status_code        : Nat16;
+        streaming_strategy : ?StreamingStrategy;
+    };
+
+      public type StreamingStrategy = {
+        #Callback: {
+            callback : StreamingCallback;
+            token    : StreamingCallbackToken;
+        };
+    };
+
+    public type StreamingCallback = query (StreamingCallbackToken) -&gt; async (StreamingCallbackResponse);
+
+    public type StreamingCallbackToken =  {
+        content_encoding : Text;
+        index            : Nat;
+        key              : Text;
+    };
+
+    public type StreamingCallbackResponse = {
+        body  : Blob;
+        token : ?StreamingCallbackToken;
+    };
+
+};</code></pre>
 </doc-codeblock></div>
+<p>Imagine what you can do with SVG files now, you have unlimited possibilities as this format is completely extendable or customizable. You can create more curves and layers, make interactions etc.</p>
 <doc-anchor-target id="useful-resources-and-links">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#useful-resources-and-links">#</doc-anchor-trigger>
         <span>Useful resources and links</span>
     </h2>
 </doc-anchor-target>
-<p>Motoko documentaion page talking about types:<br />
-<a href="https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types">https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types</a></p>
-<p>Motoko basic concepts and terms:<br />
-<a href="https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values">https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values</a></p>
-<p>Motoko base library:<br />
-<a href="https://smartcontracts.org/docs/base-libraries/stdlib-intro.html">https://smartcontracts.org/docs/base-libraries/stdlib-intro.html</a></p>
+<p>Austin Fatheree presenting HTTP requests for Motoko Bootcamp<br />
+<a href="https://www.youtube.com/watch?v=gaVuMaTP2lQ">https://www.youtube.com/watch?v=gaVuMaTP2lQ</a></p>
+<p>Basics of HTTP communication<br />
+<a href="https://www.youtube.com/watch?v=iYM2zFP3Zn0">https://www.youtube.com/watch?v=iYM2zFP3Zn0</a></p>
+<p>Documentation page regarding canisters to respond HTTP requests<br />
+<a href="https://smartcontracts.org/docs/http-middleware.html#_enabling_canisters_to_respond_to_http_requests">https://smartcontracts.org/docs/http-middleware.html#_enabling_canisters_to_respond_to_http_requests</a></p>
+<p>Motoko example HTTP counter from Dfinity<br />
+<a href="https://github.com/dfinity/examples/blob/master/motoko/http_counter/src/main.mo">https://github.com/dfinity/examples/blob/master/motoko/http_counter/src/main.mo</a></p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -348,20 +416,20 @@ var b : Bool = 1; // Not Ok</code></pre>
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/motoko_playground/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/understanding_types/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Motoko playground</span>
+                                                <span class="block mt-1">Understanding types</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/understanding_types/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/contribute/how-to/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Understanding types</span>
+                                                <span class="block mt-1">How To</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -405,6 +473,6 @@ var b : Bool = 1; // Not Ok</code></pre>
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Primitive data types", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Serving simple SVG over HTTP", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
