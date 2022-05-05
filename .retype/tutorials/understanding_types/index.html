@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache">
+
+    <!-- See retype.com -->
+    <meta name="generator" content="Retype 2.2">
+
+    <!-- Primary Meta Tags -->
+    <title>Understanding types</title>
+    <meta name="title" content="Understanding types">
+    <meta name="description" content="Now that we learned about primitive types in the previous lecture, let's move on to non-primitive types." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/understanding_types/">
+    <meta property="og:title" content="Understanding types">
+    <meta property="og:description" content="Now that we learned about primitive types in the previous lecture, let's move on to non-primitive types.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/understanding_types/">
+    <meta property="twitter:title" content="Understanding types">
+    <meta property="twitter:description" content="Now that we learned about primitive types in the previous lecture, let's move on to non-primitive types.">
+
+    <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+
+    <link href="/resources/css/retype.css?v=2.2.704998675325" rel="stylesheet" data-turbo-track="reload" />
+
+    <script type="text/javascript" src="/resources/js/config.js?v=2.2.704998675325" defer data-turbo-track="reload"></script>
+    <script type="text/javascript" src="/resources/js/retype.js?v=2.2" defer data-turbo-track="reload"></script>
+    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.704998675325" defer></script>
+</head>
+<body>
+    <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
+        <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
+    
+        <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
+            <div class="container relative flex items-center justify-between grow pr-6 md:justify-start">
+                <!-- Mobile menu button skeleton -->
+                <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
+                <div v-cloak id="docs-sidebar-toggle"></div>
+        
+                <!-- Logo -->
+                <div class="flex items-center justify-between h-full py-2 md:w-75">
+                    <div class="flex items-center px-2 md:px-6">
+                        <a id="docs-site-logo" href="/" class="flex items-center leading-snug text-2xl">
+                            <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">IC Devs</span>
+                        </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
+                    </div>
+        
+                    <span class="hidden h-8 border-r md:inline-block dark:border-dark-650"></span>
+                </div>
+        
+                <div class="flex justify-between md:grow">
+                    <!-- Top Nav -->
+                    <nav class="hidden md:flex">
+                        <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
+                            <li class="md:mr-6">
+                                <a class="block py-2 text-sm text-gray-400 whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 md:mb-0" href="https://icdevs.org/">ICDevs Site</a>
+                            </li>
+                        </ul>
+                    </nav>
+        
+                    <!-- Header Right Skeleton -->
+                    <div v-cloak class="flex justify-end grow skeleton">
+        
+                        <!-- Search input mock -->
+                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
+                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            </div>
+        
+                            <input class="w-full h-10 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 placeholder-gray-400 dark:placeholder-dark-400"
+                            style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search" />
+                        </div>
+        
+                        <!-- Mobile search button mock -->
+                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                        </div>
+        
+                        <!-- Dark mode switch placehokder -->
+                        <div class="w-10 h-10 lg:ml-2"></div>
+        
+                        <!-- History button mock -->
+                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                        </div>
+                    </div>
+        
+                    <div v-cloak class="flex justify-end grow">
+                        <div id="docs-mobile-search-button"></div>
+                        <doc-search-desktop></doc-search-desktop>
+        
+                        <doc-theme-switch class="lg:ml-2"></doc-theme-switch>
+                        <doc-history></doc-history>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container relative flex bg-white">
+            <!-- Sidebar Skeleton -->
+            <div v-cloak class="fixed flex flex-col shrink-0 duration-300 ease-in-out bg-gray-100 border-gray-200 sidebar top-20 w-75 border-r h-screen md:sticky transition-transform skeleton dark:bg-dark-800 dark:border-dark-650">
+            
+                <!-- Render this div, if config.showSidebarFilter is `true` -->
+                <div class="flex items-center h-16 px-6">
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter" />
+                </div>
+            
+                <div class="pl-6 mb-4 mt-1">
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                </div>
+            
+                <div class="shrink-0 mt-auto bg-transparent dark:border-dark-650">
+                    <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                        <span class="text-xs whitespace-nowrap">Powered by</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Sidebar component -->
+            <doc-sidebar v-cloak>
+                <template #sidebar-footer>
+                    <div class="shrink-0 mt-auto border-t md:bg-transparent md:border-none dark:border-dark-650">
+            
+                        <div class="py-3 px-6 md:hidden border-b dark:border-dark-650">
+                            <nav>
+                                <ul class="flex flex-wrap justify-center items-center">
+                                    <li class="mr-6">
+                                        <a class="block py-1 text-sm whitespace-nowrap transition-colors duration-200 ease-linear text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://icdevs.org/">ICDevs Site</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+            
+                        <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                            <span class="text-xs whitespace-nowrap">Powered by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                        </a>
+                    </div>
+                </template>
+            </doc-sidebar>
+    
+            <div class="grow min-w-0 dark:bg-dark-850">
+                <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
+                <div class="flex">
+                    <div class="grow min-w-0 px-6 md:px-16">
+                        <main class="relative pt-6 pb-16">
+                            <div class="docs-markdown" id="docs-content">
+                                <!-- Rendered if sidebar right is enabled -->
+                                <div id="docs-sidebar-right-toggle"></div>
+                
+                                <!-- Page content  -->
+<doc-anchor-target id="understanding-types" class="break-words">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#understanding-types">#</doc-anchor-trigger>
+        <span>Understanding types</span>
+    </h1>
+</doc-anchor-target>
+<p>Now that we learned about <a href="/tutorials/primitive_types/">primitive types</a> in the previous lecture, let&#x27;s move on to non-primitive types. In this tutorial, we are going to demonstrate how to declare them and build them with primitive types.</p>
+<p>This is a natural process as non-primitive values can be <strong>user-defined</strong>, meaning that you can build objects or structures that combines multiple primitive types together.</p>
+<doc-anchor-target id="non-primitive-types">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#non-primitive-types">#</doc-anchor-trigger>
+        <span>Non-primitive types</span>
+    </h2>
+</doc-anchor-target>
+<p>Let&#x27;s quickly go through non-primitive types that are present in Motoko and how to declare them.</p>
+<doc-anchor-target id="1-tuples">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-tuples">#</doc-anchor-trigger>
+        <span>1. Tuples</span>
+    </h3>
+</doc-anchor-target>
+<p>Tuples are simple objects that can contain multiple elements. These elements can be different types but you can&#x27;t change number of elements after you declare it. You could create a simple tuple type to store name and surname for a person:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type person = (Text, Text);
+
+let me = (&quot;John&quot;, &quot;Doe&quot;);</code></pre>
+</doc-codeblock></div>
+<p>Then, you could easily create a tuple that will store not only name but also an age of the person as <strong>you can mix different types in a tuple:</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type person = (Text, Text, Nat);
+
+let me = (&quot;John&quot;, &quot;Doe&quot;, 25);</code></pre>
+</doc-codeblock></div>
+<p>However, for more complex situations you should consider creating your own object with named parameters which would be more readable. Tuples are usually used for simple use cases only.</p>
+<doc-anchor-target id="2-arrays">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-arrays">#</doc-anchor-trigger>
+        <span>2. Arrays</span>
+    </h3>
+</doc-anchor-target>
+<p>Arrays are used for storing multiple values. Unlike tuples, they can contain only one specific type. You can define mutable and immutable arrays. The difference is that mutable arrays can be updated and immutable arrays cannot.</p>
+<doc-anchor-target id="21-immutable-arrays">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#21-immutable-arrays">#</doc-anchor-trigger>
+        <span>2.1 Immutable arrays</span>
+    </h4>
+</doc-anchor-target>
+<p>Here is how you define an immutable array:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">let days : [Text] =  [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;]</code></pre>
+</doc-codeblock></div>
+<p>Now as we defined an immutable array with the type of text, Motoko playground will not let you include any other value than text, also it doesn&#x27;t let you to update the value:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">days[0] := &quot;Tuesday&quot;; // Not ok - Expected mutable target assigment
+days := [&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;]; // Not ok - The same problem</code></pre>
+</doc-codeblock></div>
+<p>Let&#x27;s make a first excersise. Try to write a function called getDay, that will take a Nat as an argument and returns a name of the corresponding day.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">public query func getDay(n : Nat) : async Text {
+	return days[n];
+};</code></pre>
+</doc-codeblock></div>
+<p>Here we go. That was simple. You can notice 2 things – function is very well defined with types in the input as well as in the output, if you try to put anything else then natural number it is not going to work.</p>
+<p>Also, we are using the <strong>query</strong> keyword in the function declaration which will make the function execution much faster. It is a very good idea to use query function anytime we are not trying to update values in the backend of our app.</p>
+<doc-anchor-target id="21-mutable-arrays">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#21-mutable-arrays">#</doc-anchor-trigger>
+        <span>2.1 Mutable arrays</span>
+    </h4>
+</doc-anchor-target>
+<p>Declaration of a mutable array is very similar to immutable array. The key difference is using the var keyword. Let&#x27;s try to declare an immutable array.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">var days : [Text] = [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];</code></pre>
+</doc-codeblock></div>
+<p>Notice that now Motoko Playground allows you to reassign the array with different values. For example:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">days := [&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot; ];</code></pre>
+</doc-codeblock></div>
+<p>You could also change the number of elements inside freely. However, you still can&#x27;t change an element inside individually as only the whole array is mutable but the content inside is not:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">days[0] := &quot;Tuesday&quot;; // Not ok - expected mutable assigment target</code></pre>
+</doc-codeblock></div>
+<p>If you woul like to make a totally mutable array, you need to use the <strong>var</strong> keyword also inside the declaration. Here is the full working code of a mutable array:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">actor Days {
+    var days : [var Text] = [var &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];
+
+    days[0] := &quot;Tuesday&quot;; // Ok 
+
+    days := [var &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot; ]; // Ok
+
+    public query func getDay(n : Nat) : async Text {
+        return days[n];
+    };
+
+};</code></pre>
+</doc-codeblock></div>
+<p>If you run this code in you Motoko Playground and try tu run the function in the Candid UI, you should get &quot;Sunday&quot; for the index of 0.</p>
+<p>If you&#x27;d like to make immutable array mutable and vice versa, you need to use functions from the <a href="https://smartcontracts.org/docs/current/references/motoko-ref/array">Array section</a> of the Motoko base library. Specifically it is thaw function to make array mutable and freeze function to make it immutable.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import Array &quot;mo:base/Array&quot;;
+
+actor Days {
+    
+    let days : [Text] =  [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];
+
+    var days_mutable = Array.thaw&lt;Text&gt;(days);
+
+    days_mutable := [var &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;];
+
+    days_mutable[0] := &quot;Hello&quot;;
+};</code></pre>
+</doc-codeblock></div>
+<p>Notice that after using the thaw function, we can assign another array to the variable or even assign a value to a specific index. This wouldn&#x27;t be possible with immutable array.</p>
+<doc-anchor-target id="3-records">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-records">#</doc-anchor-trigger>
+        <span>3. Records</span>
+    </h3>
+</doc-anchor-target>
+<p>In Motoko, similarly to arrays, records objects can be mutable and immutable. Here is how you define an immutable object Person with attributes name, surname and age:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type Person = {
+    name : Text;
+    surname : Text;
+    age : Nat;
+};
+
+let person1 : Person = {
+    name = &quot;John&quot;; 
+    surname = &quot;Doe&quot;; 
+    age = 30;
+};</code></pre>
+</doc-codeblock></div>
+<p>Analogically, if you want to have your object type mutable, you should use the <strong>var</strong> keyword. Let&#x27;s redesign the example above so we are able to update the age of a person, name and surname cannot be changed:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type Person = {
+    name : Text;
+    surname : Text;
+    var age : Nat;
+};
+
+let person1 : Person = {
+    name = &quot;John&quot;; 
+    surname = &quot;Doe&quot;; 
+    var age = 30;
+};
+
+person1.age += 1; // Ok
+person1.name := &quot;Adam&quot;; // Not ok, expected mutable assigment target</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="4-variants">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#4-variants">#</doc-anchor-trigger>
+        <span>4. Variants</span>
+    </h3>
+</doc-anchor-target>
+<p>When declaring an object above, we have to define all of the parameters so we have a person that has name AND surname AND age. Variants perform more like OR as we are expecting to get one of the values inside. Let&#x27;s create a variant type Status that will have options single, married and divorced.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type Status = {
+	#single;
+	#married;
+	#divorced;
+};</code></pre>
+</doc-codeblock></div>
+<p>Now let&#x27;s update the Person record type that we created before and add status as another parameter. We expect the status parameter to be updated later on in time.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">type Status = {
+    #single;
+    #married;
+    #divorced;
+};
+
+type Person = {
+    name : Text;
+    surname : Text;
+    var age : Nat;
+    var status : Status;
+};
+
+let person1 : Person = {
+    name = &quot;John&quot;; 
+    surname = &quot;Doe&quot;; 
+    var age = 30;
+    var status = #single;
+};
+
+// update
+person1.age += 1;
+person1.status := #married;</code></pre>
+</doc-codeblock></div>
+<p>With this design, we assured that each person can only have one of the available statuses.</p>
+<doc-anchor-target id="5-functions">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#5-functions">#</doc-anchor-trigger>
+        <span>5. Functions</span>
+    </h3>
+</doc-anchor-target>
+<p>We&#x27;ve been already messing around simple functions in this and previous tutorials so you probably know how to define them. Let&#x27;s go through some more examples so you can recognize different types of functions in Motoko.</p>
+<doc-anchor-target id="public-and-private-functions">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#public-and-private-functions">#</doc-anchor-trigger>
+        <span>Public and private functions</span>
+    </h4>
+</doc-anchor-target>
+<p>Most of the functions that we defined so far were public, as there was no specific reason to make them private. Private functions are used for specific situations when you <strong>don&#x27;t want to expose the private function to the public interface of your canister.</strong></p>
+<p>Example of a public function in Motoko, using the keyword <strong>public</strong> before the function definition:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">public query func getDay(n : Nat) : async Text {
+    return days[n];
+};</code></pre>
+</doc-codeblock></div>
+<p>If you would like to make your function private, you use the <strong>private</strong> keyword. You will notice that private functions also have an _ underscore character in their names. This is not required by the language itself but recommended as a naming convention.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">private query func _getDay(n : Nat) : async Text {
+    return days[n];
+};</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="functions-from-motoko-base-library">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#functions-from-motoko-base-library">#</doc-anchor-trigger>
+        <span>Functions from Motoko base library</span>
+    </h4>
+</doc-anchor-target>
+<p>Like we presented in the array section, there is plenty of functions available in the <a href="https://smartcontracts.org/docs/current/references/motoko-ref/array">Motoko base library</a>. There is a section for each type. These functions are called from the imported module like we did with the thaw function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import Array &quot;mo:base/Array&quot;;
+&lt;some code&gt;
+var days_mutable = Array.thaw&lt;Text&gt;(days);
+&lt;some code&gt;</code></pre>
+</doc-codeblock></div>
+<p>Notice that some functions require to define the data type in the &lt;&gt; brackets.</p>
+<p>Go through the base library and check what is inside for each type. These funcitons are going to save your time when writing your programs. However, please respect that Motoko is still quite a fresh language and there is not yet as many functions available as for more mature languages.</p>
+<doc-anchor-target id="anonymous-functions">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#anonymous-functions">#</doc-anchor-trigger>
+        <span>Anonymous functions</span>
+    </h4>
+</doc-anchor-target>
+<p>Anonymous functions are also known as lambdas. You define them for generic purpose in your program to complete small tasks. They are not ment to be part of the public interface.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">func add(x : Int, y : Int) : Int = x + y;</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="6-async-values">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#6-async-values">#</doc-anchor-trigger>
+        <span>6. Async values</span>
+    </h3>
+</doc-anchor-target>
+<p>When canisters or actors communicate with each other on the Internet Computer, it happens asynchronously. Messagess are processed one after another (in sequence) in an isolated way.</p>
+<p>Let&#x27;s have a look at an example from the <a href="https://smartcontracts.org/docs/developers-guide/basic-syntax-rules.html#_actors_and_asynchronous_messaging">documentation page</a>:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">let result1 = await service1.computeAnswer(params);
+let result2 = await service2.computeAnswer(params);
+finalStep(result1, result2)</code></pre>
+</doc-codeblock></div>
+<p><strong>Await</strong> keyword is used to say to our program that we are expecting a value from the other service but the value will be returned in the future, that is why we have to wait for it. After the future value is assigned to our variables result1 and result2 the program knows that it can call the finalStep function.</p>
+<doc-anchor-target id="7-optional-values">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#7-optional-values">#</doc-anchor-trigger>
+        <span>7. Optional values</span>
+    </h3>
+</doc-anchor-target>
+<p>Optional values are used when we are expecting a specific type but it can be <strong>null</strong> as well. Optional values are defined with question mark and can be mostly found in the record type declaration or in functions.</p>
+<p>Let&#x27;s extend the Person model from above and add another parameter partner that will point to another person instance. Naturally, single persons will not have a partner so we must keep this parameter optional.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">public type Status = {
+    #single;
+    #married;
+    #divorced;
+};
+
+type Person = {
+    name : Text;
+    surname : Text;
+    var age : Nat;
+    var status : Status;
+    var partner : ?Person; // optional attribute
+};
+
+let person1 : Person = {
+    name = &quot;John&quot;; 
+    surname = &quot;Doe&quot;; 
+    var age = 30;
+    var status = #single;
+    var partner = null; // we can assign null when there is no partner
+};
+
+let person2 : Person = {
+    name = &quot;Charlie&quot;; 
+    surname = &quot;Adams&quot;; 
+    var age = 28;
+    var status = #single;
+    var partner = ?person1; // in real situation, we should also update the status of person1 and person2 and set partner for person1 if the relationship is symmetrical 
+};</code></pre>
+</doc-codeblock></div>
+<p>Optional values play significant roles also in function definitions as funciton can as well expect or return a null value. There will be more detailed tutorial on that soon.</p>
+<doc-anchor-target id="useful-links-and-resources">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#useful-links-and-resources">#</doc-anchor-trigger>
+        <span>Useful links and resources</span>
+    </h2>
+</doc-anchor-target>
+<p>Motoko Bootcamp video about variables, functions and types by Albert Du<br />
+<a href="https://www.youtube.com/watch?v=4YX41Nm7Wx8">https://www.youtube.com/watch?v=4YX41Nm7Wx8</a></p>
+<p>Motoko Bootcamp video about variants by Paul Young<br />
+<a href="https://www.youtube.com/watch?v=GFenqSGhj7I&amp;">https://www.youtube.com/watch?v=GFenqSGhj7I&amp;</a></p>
+
+                                
+                                <!-- Required only on API pages -->
+                                <doc-toolbar-member-filter-no-results />
+                            </div>
+                            <footer class="clear-both">
+                            
+                                <nav class="flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/primitive_types/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Primitive data types</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/serving_svg_over_http/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">Serving simple SVG over HTTP</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
+                            </footer>
+                        </main>
+                
+                        <div class="border-t dark:border-dark-650 pt-6 mb-8">
+                            <footer class="flex flex-wrap items-center justify-between">
+                                <div>
+                                    <ul class="flex flex-wrap items-center text-sm">
+                                    </ul>
+                                </div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2022. All rights reserved.</p></div>
+                            </footer>
+                        </div>
+                    </div>
+                
+                    <!-- Rendered if sidebar right is enabled -->
+                    <!-- Sidebar right skeleton-->
+                    <div v-cloak class="fixed top-0 bottom-0 right-0 translate-x-full bg-white border-gray-200 lg:sticky lg:border-l lg:shrink-0 lg:pt-6 lg:transform-none sm:w-1/2 lg:w-64 lg:z-0 md:w-104 sidebar-right skeleton dark:bg-dark-850 dark:border-dark-650">
+                        <div class="pl-5">
+                            <div class="w-32 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-48 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-40 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                        </div>
+                    </div>
+                
+                    <!-- User should be able to hide sidebar right -->
+                    <doc-sidebar-right v-cloak></doc-sidebar-right>
+                </div>
+
+            </div>
+        </div>
+    
+        <doc-search-mobile></doc-search-mobile>
+        <doc-back-to-top></doc-back-to-top>
+    </div>
+
+
+    <div id="docs-overlay-target"></div>
+
+    <script>window.__DOCS__ = { "title": "Understanding types", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+</body>
+</html>
