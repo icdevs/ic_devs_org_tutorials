@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache">
+
+    <!-- See retype.com -->
+    <meta name="generator" content="Retype 2.2">
+
+    <!-- Primary Meta Tags -->
+    <title>Serving simple SVG over HTTP</title>
+    <meta name="title" content="Serving simple SVG over HTTP">
+    <meta name="description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/serving_svg_over_http/">
+    <meta property="og:title" content="Serving simple SVG over HTTP">
+    <meta property="og:description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister.">
+    <meta property="og:image" content="https://tutorials.icdevs.org/static/infinity.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/serving_svg_over_http/">
+    <meta property="twitter:title" content="Serving simple SVG over HTTP">
+    <meta property="twitter:description" content="In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister.">
+    <meta property="twitter:image" content="https://tutorials.icdevs.org/static/infinity.png">
+
+    <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+
+    <link href="/resources/css/retype.css?v=2.2.704998675325" rel="stylesheet" data-turbo-track="reload" />
+
+    <script type="text/javascript" src="/resources/js/config.js?v=2.2.704998675325" defer data-turbo-track="reload"></script>
+    <script type="text/javascript" src="/resources/js/retype.js?v=2.2" defer data-turbo-track="reload"></script>
+    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.704998675325" defer></script>
+</head>
+<body>
+    <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
+        <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
+    
+        <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
+            <div class="container relative flex items-center justify-between grow pr-6 md:justify-start">
+                <!-- Mobile menu button skeleton -->
+                <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
+                <div v-cloak id="docs-sidebar-toggle"></div>
+        
+                <!-- Logo -->
+                <div class="flex items-center justify-between h-full py-2 md:w-75">
+                    <div class="flex items-center px-2 md:px-6">
+                        <a id="docs-site-logo" href="/" class="flex items-center leading-snug text-2xl">
+                            <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">IC Devs</span>
+                        </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
+                    </div>
+        
+                    <span class="hidden h-8 border-r md:inline-block dark:border-dark-650"></span>
+                </div>
+        
+                <div class="flex justify-between md:grow">
+                    <!-- Top Nav -->
+                    <nav class="hidden md:flex">
+                        <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
+                            <li class="md:mr-6">
+                                <a class="block py-2 text-sm text-gray-400 whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 md:mb-0" href="https://icdevs.org/">ICDevs Site</a>
+                            </li>
+                        </ul>
+                    </nav>
+        
+                    <!-- Header Right Skeleton -->
+                    <div v-cloak class="flex justify-end grow skeleton">
+        
+                        <!-- Search input mock -->
+                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
+                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            </div>
+        
+                            <input class="w-full h-10 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 placeholder-gray-400 dark:placeholder-dark-400"
+                            style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search" />
+                        </div>
+        
+                        <!-- Mobile search button mock -->
+                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                        </div>
+        
+                        <!-- Dark mode switch placehokder -->
+                        <div class="w-10 h-10 lg:ml-2"></div>
+        
+                        <!-- History button mock -->
+                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                        </div>
+                    </div>
+        
+                    <div v-cloak class="flex justify-end grow">
+                        <div id="docs-mobile-search-button"></div>
+                        <doc-search-desktop></doc-search-desktop>
+        
+                        <doc-theme-switch class="lg:ml-2"></doc-theme-switch>
+                        <doc-history></doc-history>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container relative flex bg-white">
+            <!-- Sidebar Skeleton -->
+            <div v-cloak class="fixed flex flex-col shrink-0 duration-300 ease-in-out bg-gray-100 border-gray-200 sidebar top-20 w-75 border-r h-screen md:sticky transition-transform skeleton dark:bg-dark-800 dark:border-dark-650">
+            
+                <!-- Render this div, if config.showSidebarFilter is `true` -->
+                <div class="flex items-center h-16 px-6">
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter" />
+                </div>
+            
+                <div class="pl-6 mb-4 mt-1">
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                </div>
+            
+                <div class="shrink-0 mt-auto bg-transparent dark:border-dark-650">
+                    <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                        <span class="text-xs whitespace-nowrap">Powered by</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Sidebar component -->
+            <doc-sidebar v-cloak>
+                <template #sidebar-footer>
+                    <div class="shrink-0 mt-auto border-t md:bg-transparent md:border-none dark:border-dark-650">
+            
+                        <div class="py-3 px-6 md:hidden border-b dark:border-dark-650">
+                            <nav>
+                                <ul class="flex flex-wrap justify-center items-center">
+                                    <li class="mr-6">
+                                        <a class="block py-1 text-sm whitespace-nowrap transition-colors duration-200 ease-linear text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://icdevs.org/">ICDevs Site</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+            
+                        <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                            <span class="text-xs whitespace-nowrap">Powered by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                        </a>
+                    </div>
+                </template>
+            </doc-sidebar>
+    
+            <div class="grow min-w-0 dark:bg-dark-850">
+                <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
+                <div class="flex">
+                    <div class="grow min-w-0 px-6 md:px-16">
+                        <main class="relative pt-6 pb-16">
+                            <div class="docs-markdown" id="docs-content">
+                                <!-- Rendered if sidebar right is enabled -->
+                                <div id="docs-sidebar-right-toggle"></div>
+                
+                                <!-- Page content  -->
+<doc-anchor-target id="serving-simple-svg-over-http" class="break-words">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#serving-simple-svg-over-http">#</doc-anchor-trigger>
+        <span>Serving simple SVG over HTTP</span>
+    </h1>
+</doc-anchor-target>
+<p>In this tutorial, things are going to get more excited. We are going to learn how to serve a SVG image over HTTP(s) directly from your canister. <strong>Yes – canisters can serve web content over HTTP!</strong> You are probably familiar with that as it is one of the main advantages of the Internet Computer over the other blockchains. But there is also a <strong>http_request()</strong> function that you can use in Motoko to define how exactly is your canister going to behave when contacted over HTTP protocol.</p>
+<p>This could be useful when you want to serve custom SVG images or define custom api endpoint over the URL. Serving a dynamic NFT file is what we&#x27;re going to do now.</p>
+<p>We are going to use <a href="/tutorials/motoko_playground/">Motoko Playground</a> for deploying the code, this will give you a quick start without needing to setting up your local enviroment.</p>
+<doc-anchor-target id="http-requests">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#http-requests">#</doc-anchor-trigger>
+        <span>HTTP Requests</span>
+    </h2>
+</doc-anchor-target>
+<p>We are going to start with this skeleton <a href="https://github.com/motoko-bootcamp/bootcamp/blob/main/daily_challenges/day_6/GUIDE.MD#http-request">template</a> used for educational purposes during the Motoko Bootcamp event.</p>
+<p>The template contains of two files, first the module file http.mo that contains types needed for HTTP communication from the canister.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">module {
+    public type HeaderField = (Text, Text);
+    public type Request = {
+        body    : Blob;
+        headers : [HeaderField];
+        method  : Text;
+        url     : Text;
+    };
+
+    public type Response = {
+        body               : Blob;
+        headers            : [HeaderField];
+        status_code        : Nat16;
+        streaming_strategy : ?StreamingStrategy;
+    };
+
+      public type StreamingStrategy = {
+        #Callback: {
+            callback : StreamingCallback;
+            token    : StreamingCallbackToken;
+        };
+    };
+
+    public type StreamingCallback = query (StreamingCallbackToken) -&gt; async (StreamingCallbackResponse);
+
+    public type StreamingCallbackToken =  {
+        content_encoding : Text;
+        index            : Nat;
+        key              : Text;
+    };
+
+    public type StreamingCallbackResponse = {
+        body  : Blob;
+        token : ?StreamingCallbackToken;
+    };
+
+};</code></pre>
+</doc-codeblock></div>
+<p>If the code seems too exotic to you, please check this <a href="https://www.youtube.com/watch?v=iYM2zFP3Zn0">video</a> that is explaining basics of HTTP protocol. The most key part for our case in this tutorial are the Request and Response types that play the main role in our simple HTTP communication.</p>
+<p>The second file is your main.mo file that loads the module http and contains a simple function http_request that puts it all together.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import HTTP &quot;http&quot;;
+import Text &quot;mo:base/Text&quot;;
+actor {
+  public query func http_request(request : HTTP.Request) : async HTTP.Response {
+    let response = {
+      body = Text.encodeUtf8(&quot;Hello world&quot;);
+      headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+      status_code = 200 : Nat16;
+      streaming_strategy = null
+      };
+      return(response)
+    };
+};</code></pre>
+</doc-codeblock></div>
+<p>Now, try to deploy the code in the Motoko Playground. Let&#x27;s ignore the Candid UI for now and focus on the Log message with the canister ID: Code installed at canister id wch4f-miaaa-aaaab-qadfa-cai. <strong>Your canister ID will be of course different</strong>. Copy your canister ID and create this URL following this pattern <strong>https://&lt;&lt;CANISTER ID&gt;&gt;.raw.ic0.app/:</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/</code></pre>
+</doc-codeblock></div>
+<p>If all goes fine and you open your URL in your browser you should see the Hello world message.</p>
+<p>Notice that there is a &quot;raw&quot; keyword in the URL. Raw in the URL means we are serving non certified assets. This certification means that IC guarantees that you are getting right data. Certification can be expensive as it can cost a lot of assets so it only makes sense when serving very important data. You would need to implement a hash function for certification which is beyond the scope of this tutorial.</p>
+<doc-anchor-target id="svg-image">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#svg-image">#</doc-anchor-trigger>
+        <span>SVG image</span>
+    </h2>
+</doc-anchor-target>
+<p>Now, let&#x27;s put some SVG image into works. SVGs are basically text files that carry vector information about some visual. You can easily find any SVG file online and use it or you can use the same as we. Create a text variable called svg that will contain data about your curve.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">let svg : Text = &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+		    &quot;&lt;path fill='black' d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
+};</code></pre>
+</doc-codeblock></div>
+<p>In order to display the SVG, we need to replace this line of code in our http_request function <del>body = Text.encodeUtf8(&quot;Hello world&quot;);</del> with the svg variable:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">body = Text.encodeUtf8(svg);</code></pre>
+</doc-codeblock></div>
+<p>You could also adjust the header format of the return type if you want to be precise, but it will work with text/html as well.</p>
+<p>Now if you deploy your code and try to refresh your canister page again in the browser, you should see the SVG image instead of Hello, World message. Beautifull infinity symbol.</p>
+<p><figure class="content-center">
+    <img src="../../static/infinity.png" alt="SVG infinity symbol from the canister" />
+    <figcaption class="caption">SVG infinity symbol from the canister</figcaption>
+</figure>
+</p>
+<p>Here we go! You just served a SVG file over HTTP on the Internet Computer.</p>
+<doc-anchor-target id="dynamic-svg">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#dynamic-svg">#</doc-anchor-trigger>
+        <span>Dynamic SVG</span>
+    </h2>
+</doc-anchor-target>
+<p>To demonstrate the power of serving SVG images over HTTP, we can now make a simple example of dynamically changing the SVG color.</p>
+<p>Notice that there is a color definition at the beginning of our curve (path) in the SVG format fill=&#x27;<strong>black</strong>&#x27;. We can make this to change dynamically based on the number in the URL requested to the canister.</p>
+<p>To start, let&#x27;s create an array that will contain some colors:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">let colors : [Text] = [&quot;yellow&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;];</code></pre>
+</doc-codeblock></div>
+<p>Now, let&#x27;s define a function make_svg that will take a color as a text argument and returns colored SVG if it finds it in our colors array. If it doesn&#x27;t find the color in our array, it will return the default black color.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">func color_svg(color : Text) : Text {
+    var result_color : Text = &quot;black&quot;;
+    for (c in colors.vals()) {
+        if (c == color){
+            result_color := c;
+        };
+    };
+    return &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+        &quot;&lt;path fill='&quot; # result_color # &quot;'d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
+};</code></pre>
+</doc-codeblock></div>
+<p>We are first looping through our colors array to find out if color is in it. If it is found we assign it as a result_color, if it is not inside we will use &quot;black&quot; as default. Notice that we are contatenating the SVG string with the color name.</p>
+<p>Now let&#x27;s change the http_request() function, so it gets the /path from the request and call the color_svg function, that will return the SVG code with the right color.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">public query func http_request(request : HTTP.Request) : async HTTP.Response {
+    let color : Text = Text.replace(request.url, #text(&quot;/&quot;), &quot;&quot;);
+    var svg : Text =  color_svg(color);
+    let response = {
+        body = Text.encodeUtf8(svg);
+        headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+        status_code = 200 : Nat16;
+        streaming_strategy = null
+    };
+    return(response)
+    };</code></pre>
+</doc-codeblock></div>
+<p>Now deploy your code and open the canister URL in another window of your browser again. Include the NFT color behind the URL so it looks like this (remember to use your own canister ID from the log console):</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/blue // use your own canister ID 
+https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/red
+https://wch4f-miaaa-aaaab-qadfa-cai.raw.ic0.app/green</code></pre>
+</doc-codeblock></div>
+<p><figure class="content-center">
+    <img src="../../static/infinity_blue.png" alt="SVG rendered with specific color" />
+    <figcaption class="caption">SVG rendered with specific color</figcaption>
+</figure>
+</p>
+<p>Try to put something else than registered color name in the URL, you should see the default black symbol.</p>
+<p>Here is the full working code in the Motoko Playground in case you got lost somewhere.</p>
+<p><strong>Main.mo</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">import HTTP &quot;http&quot;;
+import Text &quot;mo:base/Text&quot;;
+actor {
+
+    let colors : [Text] = [&quot;yellow&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;];
+
+    func color_svg(color : Text) : Text {
+        var result_color : Text = &quot;black&quot;;
+        for (c in colors.vals()) {
+            if (c == color){
+                result_color := c;
+            };
+        };
+        return &quot;&lt;svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px'viewBox='0 0 2703.214 1272.608' style='enable-background:new 0 0 2703.214 1272.608;' xml:space='default'&gt;&lt;g&gt;&lt;g&gt;&quot; #
+            &quot;&lt;path fill='&quot; # result_color # &quot;'d='M72.373,651.52C62.109,212.429,541.276-95.972,961.842,145.033c138.551,79.397,256.167,196.988,382.632,325.418 c5.749,5.839,8.404,5.236,13.785-0.188c197.808-199.402,484.222-503.454,885.399-385.157 c168.833,49.784,286.15,159.321,346.255,324.377c201.16,552.413-375.869,1009.769-870.693,706.588 c-124.801-76.466-232.581-181.978-359.98-311.726c-6.801-6.927-9.868-5.946-16.086,0.324c-144.739,145.956-300.538,304.607-492.977,371.024C458.575,1310.846,83.17,1077.492,72.373,651.52z M317.418,643.008 c12.485,253.639,207.59,371.88,415.468,326.918c179.653-38.857,330.36-196.86,458.721-328.811c4.325-4.446,1.9-6.251-1.072-9.025 c-111.488-104.066-220.365-231.184-357.581-296.6C567.01,208.705,316.523,394.639,317.418,643.008z M2385.265,632.288 c-7.903-245.124-201.289-378.703-424.132-326.433c-175.334,41.126-325.161,198.381-449.641,326.279 c-4.318,4.437-2.66,6.509,0.879,9.811c155.637,145.245,339.3,374.567,587.443,332.772 C2265.103,946.877,2385.634,802.91,2385.265,632.288z'/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;;
+    };
+
+    public query func http_request(request : HTTP.Request) : async HTTP.Response {
+        let color : Text = Text.replace(request.url, #text(&quot;/&quot;), &quot;&quot;);
+        var svg : Text =  color_svg(color);
+        let response = {
+            body = Text.encodeUtf8(svg);
+            headers = [(&quot;Content-Type&quot;, &quot;text/html; charset=UTF-8&quot;)];
+            status_code = 200 : Nat16;
+            streaming_strategy = null
+        };
+        return(response)
+    };
+};</code></pre>
+</doc-codeblock></div>
+<p><strong>http.mo</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">module {
+    public type HeaderField = (Text, Text);
+    
+    public type Request = {
+        body    : Blob;
+        headers : [HeaderField];
+        method  : Text;
+        url     : Text;
+    };
+
+    public type Response = {
+        body               : Blob;
+        headers            : [HeaderField];
+        status_code        : Nat16;
+        streaming_strategy : ?StreamingStrategy;
+    };
+
+      public type StreamingStrategy = {
+        #Callback: {
+            callback : StreamingCallback;
+            token    : StreamingCallbackToken;
+        };
+    };
+
+    public type StreamingCallback = query (StreamingCallbackToken) -&gt; async (StreamingCallbackResponse);
+
+    public type StreamingCallbackToken =  {
+        content_encoding : Text;
+        index            : Nat;
+        key              : Text;
+    };
+
+    public type StreamingCallbackResponse = {
+        body  : Blob;
+        token : ?StreamingCallbackToken;
+    };
+
+};</code></pre>
+</doc-codeblock></div>
+<p>Imagine what you can do with SVG files now, you have unlimited possibilities as this format is completely extendable or customizable. You can create more curves and layers, make interactions etc.</p>
+<doc-anchor-target id="useful-resources-and-links">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#useful-resources-and-links">#</doc-anchor-trigger>
+        <span>Useful resources and links</span>
+    </h2>
+</doc-anchor-target>
+<p>Austin Fatheree presenting HTTP requests for Motoko Bootcamp<br />
+<a href="https://www.youtube.com/watch?v=gaVuMaTP2lQ">https://www.youtube.com/watch?v=gaVuMaTP2lQ</a></p>
+<p>Basics of HTTP communication<br />
+<a href="https://www.youtube.com/watch?v=iYM2zFP3Zn0">https://www.youtube.com/watch?v=iYM2zFP3Zn0</a></p>
+<p>Documentation page regarding canisters to respond HTTP requests<br />
+<a href="https://smartcontracts.org/docs/http-middleware.html#_enabling_canisters_to_respond_to_http_requests">https://smartcontracts.org/docs/http-middleware.html#_enabling_canisters_to_respond_to_http_requests</a></p>
+<p>Motoko example HTTP counter from Dfinity<br />
+<a href="https://github.com/dfinity/examples/blob/master/motoko/http_counter/src/main.mo">https://github.com/dfinity/examples/blob/master/motoko/http_counter/src/main.mo</a></p>
+
+                                
+                                <!-- Required only on API pages -->
+                                <doc-toolbar-member-filter-no-results />
+                            </div>
+                            <footer class="clear-both">
+                            
+                                <nav class="flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/understanding_types/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Understanding types</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/contribute/how-to/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">How To</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
+                            </footer>
+                        </main>
+                
+                        <div class="border-t dark:border-dark-650 pt-6 mb-8">
+                            <footer class="flex flex-wrap items-center justify-between">
+                                <div>
+                                    <ul class="flex flex-wrap items-center text-sm">
+                                    </ul>
+                                </div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2022. All rights reserved.</p></div>
+                            </footer>
+                        </div>
+                    </div>
+                
+                    <!-- Rendered if sidebar right is enabled -->
+                    <!-- Sidebar right skeleton-->
+                    <div v-cloak class="fixed top-0 bottom-0 right-0 translate-x-full bg-white border-gray-200 lg:sticky lg:border-l lg:shrink-0 lg:pt-6 lg:transform-none sm:w-1/2 lg:w-64 lg:z-0 md:w-104 sidebar-right skeleton dark:bg-dark-850 dark:border-dark-650">
+                        <div class="pl-5">
+                            <div class="w-32 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-48 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-40 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                        </div>
+                    </div>
+                
+                    <!-- User should be able to hide sidebar right -->
+                    <doc-sidebar-right v-cloak></doc-sidebar-right>
+                </div>
+
+            </div>
+        </div>
+    
+        <doc-search-mobile></doc-search-mobile>
+        <doc-back-to-top></doc-back-to-top>
+    </div>
+
+
+    <div id="docs-overlay-target"></div>
+
+    <script>window.__DOCS__ = { "title": "Serving simple SVG over HTTP", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+</body>
+</html>
