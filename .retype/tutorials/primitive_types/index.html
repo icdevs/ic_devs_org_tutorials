@@ -29,11 +29,11 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="/resources/css/retype.css?v=2.2.704998675325" rel="stylesheet" data-turbo-track="reload" />
+    <link href="/resources/css/retype.css?v=2.2.705868030699" rel="stylesheet" data-turbo-track="reload" />
 
-    <script type="text/javascript" src="/resources/js/config.js?v=2.2.704998675325" defer data-turbo-track="reload"></script>
+    <script type="text/javascript" src="/resources/js/config.js?v=2.2.705868030699" defer data-turbo-track="reload"></script>
     <script type="text/javascript" src="/resources/js/retype.js?v=2.2" defer data-turbo-track="reload"></script>
-    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.704998675325" defer></script>
+    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.705868030699" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -179,8 +179,8 @@
         <span>Types in Motoko</span>
     </h2>
 </doc-anchor-target>
-<p>Generaly speaking, we can categorize types into two groups: primitive types non-primitive values. This text focuses on primitive types mainly so we will explain them in more detail in the next chapture. To give you the contrast, let&#x27;s quickly go through the primitive vs non-primitive values.</p>
-<p>Primitive types in Motoko programming language are integers, natural numbers floating numbers, characters, texts and booleans.</p>
+<p>Generally speaking, we can categorize types into two groups: primitive types and non-primitive values. This text focuses on primitive types mainly so we will explain them in more detail in the next chapter. To give you the contrast, let&#x27;s quickly go through the primitive vs non-primitive values.</p>
+<p>Primitive types in the Motoko programming language are integers, natural numbers, floating numbers, characters, texts and booleans.</p>
 <p>Example of a primitive type, declaration of a variable that will have type of a natural number an is initialized with the value of 1:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">let a : Nat = 1;</code></pre>
@@ -213,7 +213,7 @@ let b : Int = -10;
 let c : Int = 1_000_000;
 let d : Int = 0xf4; // 245</code></pre>
 </doc-codeblock></div>
-<p>Let&#x27;s make a little exercise now. Write a funciton called add, that will take two integers as arguments and return a sum of these two numbers.</p>
+<p>Let&#x27;s do a little exercise now. Write a function called add, that will take two integers as arguments and return a sum of these two numbers.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">public query func add(a : Int, b : Int) : async Int {
     return a+b;
@@ -226,7 +226,7 @@ let d : Int = 0xf4; // 245</code></pre>
         <span>2. Unbounded Natural numbers</span>
     </h3>
 </doc-anchor-target>
-<p>Unbounded natural numbers can be assigned with positive numbers only. <strong>Motoko program will trap if you try to assign a negative number.</strong></p>
+<p>Unbounded natural numbers can be assigned with positive numbers only. <strong>The Motoko program will trap if you try to assign a negative number.</strong></p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">let a : Nat = 1;
 let b : Nat = 1_000_000;
@@ -238,7 +238,7 @@ let c : Nat = 0xf4; //245</code></pre>
         <span>3. Bounded numbers</span>
     </h3>
 </doc-anchor-target>
-<p>Unbounded numbers variables can be assigned theoretically with numbers of any size. There are situations when you don&#x27;t need this. For example if you want to declare a variable that will represent an age of a person. This variable should never exceed a number greater than 200. You might consider to use a bounded variable to be more memory effective.</p>
+<p>Unbounded numbers variables can be assigned theoretically with numbers of any size. There are situations when you don&#x27;t need this. For example if you want to declare a variable that will represent an age of a person. This variable should never exceed a number greater than 200. You might consider using a bounded variable to be more memory effective.</p>
 <p>In Motoko, these bounded numbers types are available:</p>
 <ul>
 <li>Nat8</li>
@@ -250,7 +250,7 @@ let c : Nat = 0xf4; //245</code></pre>
 <li>Int32</li>
 <li>Int64</li>
 </ul>
-<p>To explain the pattern, each type consist of Nat/Int and a number. This number represents quantity of bits that will be assigned in memory of the computer for this specific type. For example Nat8 variable can be only assigned with values ranging from 0 to 255. This comes from a formula 2^8 = 256 so the maximum number is 255 as we are starting from 0.</p>
+<p>To explain the pattern, each type consists of Nat/Int and a number. This number represents the quantity of bits that will be assigned in memory of the computer for this specific type. For example Nat8 variable can be only assigned with values ranging from 0 to 255. This comes from a formula 2^8 = 256 so the maximum number is 255 as we are starting from 0.</p>
 <p>This means that you can declare a variable:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">let a : Nat8 = 255; // Ok</code></pre>
@@ -272,7 +272,7 @@ let b : Int8 = 127; // Ok
 let c : Int8 = -130 // Not ok
 let d : Int8 = 250 // Not ok</code></pre>
 </doc-codeblock></div>
-<p>For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 size of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.</p>
+<p>For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 sizes of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.</p>
 <p>Keep in mind, even if you have a value that would fit into a smaller size Nat/Int, you can only assign it if it has the same type. Something like this will <strong>not</strong> work in Motoko:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">let a : Int8 = 10; // Not Ok – Int8 and Int32 types not compatible
@@ -302,14 +302,14 @@ let d : Float = 3.141_592_653_589_793;</code></pre>
         <span>5. Characters and text</span>
     </h3>
 </doc-anchor-target>
-<p>For single characters, there is a type called Char and for strings of characters a Text type. <strong>Be careful, char type must be assigned with single quotes and string types with double qoutes.</strong> Lets try to declare your own variables:</p>
+<p>For single characters, there is a type called Char and for strings of characters a Text type. <strong>Be careful, char type must be assigned with single quotes and string types with double quotes.</strong> Let&#x27;s try to declare your own variables:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">let a : Char = 'A'; // Ok
 let b : Char = &quot;B&quot;; // Not ok
 let c : Text =  &quot;Hello, World!&quot; // Ok
 let d : Text = 'Hello, World!' // Not ok</code></pre>
 </doc-codeblock></div>
-<p>Let&#x27;s create a funciton concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.</p>
+<p>Let&#x27;s create a function concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">public query func concat(a : Text, b : Text) : async Text {
     return a # &quot; &quot; # b;
@@ -333,12 +333,21 @@ var b : Bool = 1; // Not Ok</code></pre>
         <span>Useful resources and links</span>
     </h2>
 </doc-anchor-target>
-<p>Motoko documentaion page talking about types:<br />
+<p>Motoko documentation page talking about types:<br />
 <a href="https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types">https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types</a></p>
 <p>Motoko basic concepts and terms:<br />
 <a href="https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values">https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values</a></p>
 <p>Motoko base library:<br />
 <a href="https://smartcontracts.org/docs/base-libraries/stdlib-intro.html">https://smartcontracts.org/docs/base-libraries/stdlib-intro.html</a></p>
+<doc-anchor-target id="the-author">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#the-author">#</doc-anchor-trigger>
+        <span>The author</span>
+    </h4>
+</doc-anchor-target>
+<blockquote>
+<p>This tutorial was written by Lukas Vozda. If you find some resources out of date, have some suggestions or just want to get in touch. You can find me on Twitter <a href="https://mobile.twitter.com/lukas_icp">@lukas_icp</a> or Discord LukeVoz#0574.</p>
+</blockquote>
 
                                 
                                 <!-- Required only on API pages -->

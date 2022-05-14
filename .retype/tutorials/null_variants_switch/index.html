@@ -9,21 +9,21 @@
     <meta name="generator" content="Retype 2.2">
 
     <!-- Primary Meta Tags -->
-    <title>Basics</title>
-    <meta name="title" content="Basics">
-    <meta name="description" content="Install SDK" />
+    <title>Null, variants and the switch statement</title>
+    <meta name="title" content="Null, variants and the switch statement">
+    <meta name="description" content="We have touched null, the optional type and variants softly in the Understanding types tutorial." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/basics/">
-    <meta property="og:title" content="Basics">
-    <meta property="og:description" content="Install SDK">
+    <meta property="og:url" content="https://tutorials.icdevs.org/tutorials/null_variants_switch/">
+    <meta property="og:title" content="Null, variants and the switch statement">
+    <meta property="og:description" content="We have touched null, the optional type and variants softly in the Understanding types tutorial.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/basics/">
-    <meta property="twitter:title" content="Basics">
-    <meta property="twitter:description" content="Install SDK">
+    <meta property="twitter:url" content="https://tutorials.icdevs.org/tutorials/null_variants_switch/">
+    <meta property="twitter:title" content="Null, variants and the switch statement">
+    <meta property="twitter:description" content="We have touched null, the optional type and variants softly in the Understanding types tutorial.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
@@ -161,47 +161,218 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="basics" class="break-words">
+<doc-anchor-target id="null-variants-and-the-switch-statement" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#basics">#</doc-anchor-trigger>
-        <span>Basics</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#null-variants-and-the-switch-statement">#</doc-anchor-trigger>
+        <span>Null, variants and the switch statement</span>
     </h1>
 </doc-anchor-target>
-<hr />
-<doc-anchor-target id="install---create---run">
+<p>We have touched null, the optional type and variants softly in the <a href="/tutorials/understanding_types/">Understanding types</a> tutorial. Now it&#x27;s time to dive deeper and write some functions that utilize them together with the switch statement.</p>
+<doc-anchor-target id="optional-type">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#install---create---run">#</doc-anchor-trigger>
-        <span>Install - Create - Run</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#optional-type">#</doc-anchor-trigger>
+        <span>Optional type</span>
     </h2>
 </doc-anchor-target>
-<p>Install SDK</p>
+<p>In the Understanding types tutorial, we have described optional type as a type that we don&#x27;t know whether we expect a real value of specific type, let&#x27;s say Text or a null type.</p>
+<p>To examine this, let&#x27;s write a function called day_of_week that will take Nat as an argument and return the name of the week. We can use the days array from the previous tutorial.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">sh -ci &quot;$(curl -fsSL https://sdk.dfinity.org/install.sh)&quot;</code></pre>
+<pre class="language-none"><code v-pre class="language-none">let days : [Text] =  [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];
+
+public query func day_of_week(n : Nat) async Text {
+	return days[n];
+};</code></pre>
 </doc-codeblock></div>
-<p>Get version</p>
+<p>That was easy! Now what happens if you put a number higher than 6 as an argument? Even if Motoko Playground deploys your code, it doesn&#x27;t always mean it is safe. You need to take care of this kind of error yourself to prevent your program from failing.</p>
+<p>To fix that, we can use the optional type ?Text, so our function knows that it can also return a null type.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">dfx --version</code></pre>
+<pre class="language-none"><code v-pre class="language-none">public query func day_of_week(n : Nat) : async ?Text {
+    if (n &lt;= 6){
+        return ?days[n];
+    } else {
+        return null;
+    };
+};</code></pre>
 </doc-codeblock></div>
-<p>Create a new project</p>
+<p>Notice that ?Text and Text type are different. If your function is supposed to return a ?Text type, you can&#x27;t just return a Text. In such a case, you would see this error:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">dfx new hello</code></pre>
+<pre class="language-none"><code v-pre class="language-none">expression of type
+  Text
+cannot produce expected type
+  ?Text</code></pre>
 </doc-codeblock></div>
-<p>Start local network - the flag is for running on background</p>
+<p>That is why we put a question mark in front of the return type ?days[n]. Notice that in Candid UI you now can see the (opt &quot;Tuesday&quot;) value returned instead of just text.</p>
+<doc-anchor-target id="switch-statement">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#switch-statement">#</doc-anchor-trigger>
+        <span>Switch statement</span>
+    </h2>
+</doc-anchor-target>
+<p>Switch statement is a very popular concept in many programming languages. We could write this simple switch statement in a function as a warm up just that you get familiar with the Motoko syntax:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">dfx start --background</code></pre>
+<pre class="language-none"><code v-pre class="language-none">public query func day_of_the_week(n : Nat) : async Text {
+    switch(n){
+        case(1) {
+            return &quot;Monday&quot;;
+        };
+        case(2) {
+            return &quot;Tuesday&quot;;
+        };
+        case(3) {
+            return &quot;Wednesday&quot;;
+        };
+        case(4) {
+            return &quot;Thursday&quot;;
+        };
+        case(5) {
+            return &quot;Friday&quot;;
+        };
+        case(6) {
+            return &quot;Saturday&quot;;
+        };
+        case(7) {
+            return &quot;Sunday&quot;;
+        };
+        case(_) {
+            return &quot;Not a valid index&quot;;
+        };
+    };
+};</code></pre>
 </doc-codeblock></div>
-<p>Stop local network</p>
+<p>Things get more interesting when we apply switch statement on the optional type. We can use the switch statement to let our program decide what should happen if the optional value is null and what should happen if it&#x27;s not.</p>
+<p>Let&#x27;s make a new function called Hello, that will take Text as an optional argument and return a message &quot;Hello, unknown person&quot; if the argument is null and &quot;Hello, /name/&quot; if it is a text.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">dfx stop</code></pre>
+<pre class="language-none"><code v-pre class="language-none">public query func hello(name : ?Text) : async Text {
+    switch(name){
+        case(null){
+            return &quot;Hello, unknown person&quot;;
+        };
+        case(?value){
+            return &quot;Hello, &quot; # value;
+        };
+    };
+};</code></pre>
 </doc-codeblock></div>
-<p>Upgrade dfx version</p>
+<p>To explain this, we have a switch statement that takes the function argument called name, in the case that name is null, it will return unknown person text, if there is something other than null, we are expecting the Text type and we return in concatenation with the greeting.</p>
+<doc-anchor-target id="variants">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#variants">#</doc-anchor-trigger>
+        <span>Variants</span>
+    </h2>
+</doc-anchor-target>
+<p>Things will get more interesting, when we put variants into play. Variants give us the opportunity to define a specific set of choices or situations. We already touched variants in the previous tutorial, when we defined a variant type Status that says whether a person is single, married or divorced.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">dfx upgrade</code></pre>
+<pre class="language-none"><code v-pre class="language-none">public type Status = {
+    #single;
+    #married;
+    #divorced;
+};</code></pre>
 </doc-codeblock></div>
-<p>Get Candid uri ulr</p>
+<p>This is a very readable and technically effective way to give users of our program a limited choice. Also your program is much safer as it doesn&#x27;t need to deal with array indexes, strings, typos and so on.</p>
+<p>Let&#x27;s now bring back the code from the previous <a href="/tutorials/understanding_types/">Understanding types</a> and write a function that will take a Person type as an argument and uses a switch statement on the status parameter of that person to return a text describing whether the person is single, married or divorce.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">echo &quot;http://localhost:8000/?canisterId=$(dfx canister id __Candid_UI)&quot;</code></pre>
+<pre class="language-none"><code v-pre class="language-none">actor Person {
+
+	public type Status = {
+	    #single;
+	    #married;
+	    #divorced;
+	};
+
+	type Person = {
+	    name : Text;
+	    surname : Text;
+	    age : Nat;
+	    status : Status;
+	    partner : ?Person; // optional attribute
+	};
+
+
+	public query func get_status(p : Person) : async Text {
+	    let name : Text = p.name;
+	    if (name == &quot;&quot;){
+	        let name = &quot;Person&quot;;
+	    };
+	    switch(p.status){
+	        case(#single){
+	            return name # &quot; is single.&quot;;
+	        };
+	        case(#married){
+	            return name # &quot; is married.&quot;
+	        };
+	        case(#divorced){
+	            return name # &quot; is divorced.&quot;
+	        };
+	    };
+	};
+}</code></pre>
 </doc-codeblock></div>
+<p>Deploy this code in your Motoko Playground project and try to create a person called Alice, 30 years old that is single and call the get_status function. <strong>Notice that Candid UI will let you choose only one of 3 options for the status attribute that we defined in our code.</strong> You should see &quot;Alice is single&quot; message in the output. We have also added a check that if a person decides not to fill the name, we will substitute the name with &quot;Person&quot; string.</p>
+<p>To practice variants and the switch statement some more, let&#x27;s bring up the days from the beginning of this text and try to create a variant representation of the object.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">// Before – days as Array
+let days : [Text] =  [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];
+
+// After – days as Variants
+type Day = {
+    #Monday;
+    #Tuesday;
+    #Wednesday;
+    #Thursday;
+    #Friday;
+    #Saturday;
+    #Sunday;
+}</code></pre>
+</doc-codeblock></div>
+<p>Not to confuse you, these two objects are very different. The variant way might be a better choice when writing your programs as it doesn&#x27;t give the user options to insert bad inputs. Also your code might be more readable as #Monday is much easier to understand that day[0] where we might not be sure whether we start days from Monday or Sunday or whether the array indexes start from 1 or 0.</p>
+<p>Now let&#x27;s make a function called is_weekend that will take the Day variant and returns a Text &quot;weekend&quot; when the input is Saturday or Sunday or &quot;weekday&quot; when it is one of the other days.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">actor Day {
+
+	type Day = {
+	    #Monday;
+	    #Tuesday;
+	    #Wednesday;
+	    #Thursday;
+	    #Friday;
+	    #Saturday;
+	    #Sunday;
+	};
+
+	public query func is_weekend(d : Day) : async Text {
+	    switch d {
+	        case (#Saturday or #Sunday) &quot;weekend&quot;;  
+	        case _ &quot;weekday&quot;; 
+	    };
+	};
+}</code></pre>
+</doc-codeblock></div>
+<p>Try to run this code in your Motoko Playground workspace and try to experiment with it. You should immediately notice how this code works better:</p>
+<ol>
+<li>In the Candid UI you are allowed to input only predefined choices that are straightforward and easy to understand</li>
+<li>Your Motoko code is also much simpler, you don&#x27;t need to take care of specific situations such as the user input number that exceeds the index of the array.</li>
+</ol>
+<doc-anchor-target id="useful-links-and-resources">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#useful-links-and-resources">#</doc-anchor-trigger>
+        <span>Useful links and resources</span>
+    </h2>
+</doc-anchor-target>
+<p>Motoko Bootcamp video about variants by Paul Young<br />
+<a href="https://www.youtube.com/watch?v=GFenqSGhj7I&amp;">https://www.youtube.com/watch?v=GFenqSGhj7I&amp;</a></p>
+<p>Motoko Documentation page talking about options and errors<br />
+<a href="https://smartcontracts.org/docs/current/developer-docs/build/languages/motoko/errors#working-with-optionresult">https://smartcontracts.org/docs/current/developer-docs/build/languages/motoko/errors#working-with-optionresult</a></p>
+<p>Motoko Documentation page talking about variants<br />
+<a href="https://smartcontracts.org/docs/current/developer-docs/build/languages/motoko/overview#variants">https://smartcontracts.org/docs/current/developer-docs/build/languages/motoko/overview#variants</a></p>
+<doc-anchor-target id="the-author">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#the-author">#</doc-anchor-trigger>
+        <span>The author</span>
+    </h4>
+</doc-anchor-target>
+<blockquote>
+<p>This tutorial was written by Lukas Vozda. If you find some resources out of date, have some suggestions or just want to get in touch. You can find me on Twitter <a href="https://mobile.twitter.com/lukas_icp">@lukas_icp</a> or Discord LukeVoz#0574.</p>
+</blockquote>
 
                                 
                                 <!-- Required only on API pages -->
@@ -211,20 +382,20 @@
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/understanding_types/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Who we are</span>
+                                                <span class="block mt-1">Understanding types</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/motoko_playground/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/tutorials/serving_svg_over_http/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Motoko playground</span>
+                                                <span class="block mt-1">Serving simple SVG over HTTP</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -268,6 +439,6 @@
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Basics", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Null, variants and the switch statement", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>

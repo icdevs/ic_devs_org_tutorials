@@ -11,9 +11,9 @@ Types play a significant role in Motoko language. Compared to modern general pur
 
 ## Types in Motoko
 
-Generaly speaking, we can categorize types into two groups: primitive types non-primitive values. This text focuses on primitive types mainly so we will explain them in more detail in the next chapture. To give you the contrast, let's quickly go through the primitive vs non-primitive values.
+Generally speaking, we can categorize types into two groups: primitive types and non-primitive values. This text focuses on primitive types mainly so we will explain them in more detail in the next chapter. To give you the contrast, let's quickly go through the primitive vs non-primitive values.
 
-Primitive types in Motoko programming language are integers, natural numbers floating numbers, characters, texts and booleans.
+Primitive types in the Motoko programming language are integers, natural numbers, floating numbers, characters, texts and booleans.
 
 Example of a primitive type, declaration of a variable that will have type of a natural number an is initialized with the value of 1:
 
@@ -43,7 +43,7 @@ let b : Int = -10;
 let c : Int = 1_000_000;
 let d : Int = 0xf4; // 245
 ```
-Let's make a little exercise now. Write a funciton called add, that will take two integers as arguments and return a sum of these two numbers.
+Let's do a little exercise now. Write a function called add, that will take two integers as arguments and return a sum of these two numbers.
 ```
 public query func add(a : Int, b : Int) : async Int {
     return a+b;
@@ -54,7 +54,7 @@ That was quite easy, right? Try to experiment with it in the Candid UI.
 
 ### 2. Unbounded Natural numbers
 
-Unbounded natural numbers can be assigned with positive numbers only. **Motoko program will trap if you try to assign a negative number.**
+Unbounded natural numbers can be assigned with positive numbers only. **The Motoko program will trap if you try to assign a negative number.**
 
 ```
 let a : Nat = 1;
@@ -65,7 +65,7 @@ let c : Nat = 0xf4; //245
 
 ### 3. Bounded numbers
 
-Unbounded numbers variables can be assigned theoretically with numbers of any size. There are situations when you don't need this. For example if you want to declare a variable that will represent an age of a person. This variable should never exceed a number greater than 200. You might consider to use a bounded variable to be more memory effective.
+Unbounded numbers variables can be assigned theoretically with numbers of any size. There are situations when you don't need this. For example if you want to declare a variable that will represent an age of a person. This variable should never exceed a number greater than 200. You might consider using a bounded variable to be more memory effective.
 
 In Motoko, these bounded numbers types are available:
 - Nat8
@@ -77,7 +77,7 @@ In Motoko, these bounded numbers types are available:
 - Int32
 - Int64
 
-To explain the pattern, each type consist of Nat/Int and a number. This number represents quantity of bits that will be assigned in memory of the computer for this specific type. For example Nat8 variable can be only assigned with values ranging from 0 to 255. This comes from a formula 2^8 = 256 so the maximum number is 255 as we are starting from 0.
+To explain the pattern, each type consists of Nat/Int and a number. This number represents the quantity of bits that will be assigned in memory of the computer for this specific type. For example Nat8 variable can be only assigned with values ranging from 0 to 255. This comes from a formula 2^8 = 256 so the maximum number is 255 as we are starting from 0.
 
 This means that you can declare a variable:
 ```
@@ -102,7 +102,7 @@ let c : Int8 = -130 // Not ok
 let d : Int8 = 250 // Not ok
 ```
 
-For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 size of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.
+For Nat16 the maximum value that can be assigned is 65 535 (2^16) and for Int16 we have minimum –32768 and maximum –32767. The same logic applies for 32 and 64 sizes of a type. This gives you understanding of what value can be assigned to a variable of specific type and gives you freedom to decide which one to use when designing your own program.
 
 Keep in mind, even if you have a value that would fit into a smaller size Nat/Int, you can only assign it if it has the same type. Something like this will **not** work in Motoko:
 ```
@@ -126,7 +126,7 @@ let d : Float = 3.141_592_653_589_793;
 ```
 ### 5. Characters and text
 
-For single characters, there is a type called Char and for strings of characters a Text type. **Be careful, char type must be assigned with single quotes and string types with double qoutes.** Lets try to declare your own variables:
+For single characters, there is a type called Char and for strings of characters a Text type. **Be careful, char type must be assigned with single quotes and string types with double quotes.** Let's try to declare your own variables:
 
 ```
 let a : Char = 'A'; // Ok
@@ -135,7 +135,7 @@ let c : Text =  "Hello, World!" // Ok
 let d : Text = 'Hello, World!' // Not ok
 ```
 
-Let's create a funciton concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.
+Let's create a function concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.
 
 ```
 public query func concat(a : Text, b : Text) : async Text {
@@ -155,7 +155,7 @@ var b : Bool = 1; // Not Ok
 ``` 
 ## Useful resources and links
 
-Motoko documentaion page talking about types:  
+Motoko documentation page talking about types:  
 https://smartcontracts.org/docs/languages/motoko-at-a-glance.html#_primitive_types  
 
 Motoko basic concepts and terms:  
@@ -163,3 +163,6 @@ https://smartcontracts.org/docs/language-guide/basic-concepts.html#intro-values
 
 Motoko base library:  
 https://smartcontracts.org/docs/base-libraries/stdlib-intro.html
+
+#### The author
+> This tutorial was written by Lukas Vozda. If you find some resources out of date, have some suggestions or just want to get in touch. You can find me on Twitter [@lukas_icp](https://mobile.twitter.com/lukas_icp) or Discord LukeVoz#0574.
