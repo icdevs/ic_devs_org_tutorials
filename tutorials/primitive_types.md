@@ -43,7 +43,7 @@ let b : Int = -10;
 let c : Int = 1_000_000;
 let d : Int = 0xf4; // 245
 ```
-Let's make a little exercise now. Write a funciton called add, that will take two integers as arguments and return a sum of these two numbers.
+Let's make a little exercise now. Write a function called add, that will take two integers as arguments and return a sum of these two numbers.
 ```
 public query func add(a : Int, b : Int) : async Int {
     return a+b;
@@ -135,7 +135,7 @@ let c : Text =  "Hello, World!" // Ok
 let d : Text = 'Hello, World!' // Not ok
 ```
 
-Let's create a funciton concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.
+Let's create a function concat, that will take two strings a and b as arguments and will return a concatenated text of them both with a single space between them.
 
 ```
 public query func concat(a : Text, b : Text) : async Text {

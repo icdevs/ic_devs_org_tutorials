@@ -60,7 +60,7 @@ actor Counter {
 
 ```
 
-The actor has a stable variable counter, that will store the number of the counter and 3 public funcitons – get, set and inc. These functions form a public interface of our canister and we will see them in the generated Candid interface after deploy.
+The actor has a stable variable counter, that will store the number of the counter and 3 public functions – get, set and inc. These functions form a public interface of our canister and we will see them in the generated Candid interface after deploy.
 
 > Candid is an IDL (interface definition language) developed for the IC ecosystem in order to facilitate communication between services written in different programing languages. You can read more about it [here](https://medium.com/dfinity/candid-a-tool-for-interoperable-programming-languages-on-the-internet-computer-27e7085cd97f).
 

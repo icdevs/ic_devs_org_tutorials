@@ -211,11 +211,11 @@ var days_mutable = Array.thaw<Text>(days);
 ```
 Notice that some functions require to define the data type in the <> brackets. 
 
-Go through the base library and check what is inside for each type. These funcitons are going to save your time when writing your programs. However, please respect that Motoko is still quite a fresh language and there is not yet as many functions available as for more mature languages.
+Go through the base library and check what is inside for each type. These functions are going to save your time when writing your programs. However, please respect that Motoko is still quite a fresh language and there is not yet as many functions available as for more mature languages.
 
 #### Anonymous functions
 
-Anonymous functions are also known as lambdas. You define them for generic purpose in your program to complete small tasks. They are not ment to be part of the public interface.
+Anonymous functions are also known as lambdas. You define them for generic purpose in your program to complete small tasks. They are not meant to be part of the public interface.
 ```
 func add(x : Int, y : Int) : Int = x + y;
 ```
@@ -268,7 +268,7 @@ let person2 : Person = {
     var partner = ?person1; // in real situation, we should also update the status of person1 and person2 and set partner for person1 if the relationship is symmetrical 
 };
 ```
-Optional values play significant roles also in function definitions as funciton can as well expect or return a null value. There will be more detailed tutorial on that soon.
+Optional values play significant roles also in function definitions as function can as well expect or return a null value. There will be more detailed tutorial on that soon.
 
 ## Useful links and resources
 
