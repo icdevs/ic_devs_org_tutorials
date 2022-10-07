@@ -215,7 +215,7 @@ Go through the base library and check what is inside for each type. These functi
 
 #### Anonymous functions
 
-Anonymous functions are also known as lambdas. You define them for generic purpose in your program to complete small tasks. They are not ment to be part of the public interface.
+Anonymous functions are also known as lambdas. You define them for generic purpose in your program to complete small tasks. They are not meant to be part of the public interface.
 ```
 func add(x : Int, y : Int) : Int = x + y;
 ```
